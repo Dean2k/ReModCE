@@ -233,6 +233,7 @@ namespace ReModCE_ARES.Components
                 () => FavoriteAvatar(_favoriteAvatarList3.AvatarPedestal.field_Internal_ApiAvatar_0, 3),
                 parent);
             _favoriteButton3.GameObject.SetActive(AvatarFavoritesEnabled3);
+           
 
             var changeButton = GameObject.Find("UserInterface/MenuContent/Screens/Avatar/Change Button");
             if (changeButton != null)

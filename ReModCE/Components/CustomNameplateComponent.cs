@@ -102,43 +102,51 @@ namespace ReModCE_ARES.Components
         private bool wasPreviousHidden = false;
         private bool avatarShown = false;
         private bool wasPreviousShown = false;
+        private int skipX = 0;
 
         private void Update()
         {
             if (Enabled)
             {
-                if (frames == player._playerNet.field_Private_Byte_0 && ping == player._playerNet.field_Private_Byte_1)
+                if (skipX >= 50)
                 {
-                    noUpdateCount++;
-                }
-                else
+                    if (frames == player._playerNet.field_Private_Byte_0 && ping == player._playerNet.field_Private_Byte_1)
+                    {
+                        noUpdateCount++;
+                    }
+                    else
+                    {
+                        noUpdateCount = 0;
+                    }
+                    avatarLoaded = player.GetAvatarObject().active;
+                    avatarHidden = ModerationManagerExtension.GetAvatarHidden(player.field_Private_APIUser_0.id);
+                    avatarShown = ModerationManagerExtension.GetAvatarShow(player.field_Private_APIUser_0.id);
+                    if ((avatarId != player.prop_ApiAvatar_0.id) || (avatarLoaded != wasPrevious) || (avatarHidden != wasPreviousHidden) || (avatarShown != wasPreviousShown) || avatarStats == "1.40 MB")
+                    {
+                        avatarStats = player.GetVRamActive();
+                        avatarId = player.prop_ApiAvatar_0.id;
+                    }
+                    frames = player._playerNet.field_Private_Byte_0;
+                    ping = player._playerNet.field_Private_Byte_1;
+                    string text = "<color=green>Stable</color>";
+                    if (noUpdateCount > 30)
+                        text = "<color=yellow>Lagging</color>";
+                    if (noUpdateCount > 150)
+                        text = "<color=red>Crashed</color>";
+                    statsText.text = $"[{player.GetPlatform()}] |" + $" [{player.GetAvatarStatus()}] |" + $"{(player.GetIsMaster() ? " | [<color=#0352ff>HOST</color>] |" : "")}" + $" [{text}] |" + $" [FPS: {player.GetFramesColord()}] |" + $" [Ping: {player.GetPingColord()}] " + $" [VRAM: {avatarStats}] " + $" {(player.ClientDetect() ? " | [<color=red>ClientUser</color>]" : "")}";
+                    if (customText != null)
+                    {
+                        NameplateModel custom = IsCustom(player);
+                        customText.text = custom.Text;
+                    }
+                    wasPrevious = avatarLoaded;
+                    wasPreviousHidden = avatarHidden;
+                    wasPreviousShown = avatarShown;
+                    skipX = 0;
+                } else
                 {
-                    noUpdateCount = 0;
+                    skipX++;
                 }
-                avatarLoaded = player.GetAvatarObject().active;
-                avatarHidden = ModerationManagerExtension.GetAvatarHidden(player.field_Private_APIUser_0.id);
-                avatarShown = ModerationManagerExtension.GetAvatarShow(player.field_Private_APIUser_0.id);
-                if ((avatarId != player.prop_ApiAvatar_0.id) || (avatarLoaded != wasPrevious) || (avatarHidden != wasPreviousHidden) || (avatarShown != wasPreviousShown))
-                {
-                    avatarStats = player.GetVRamActive();
-                    avatarId = player.prop_ApiAvatar_0.id;
-                }
-                frames = player._playerNet.field_Private_Byte_0;
-                ping = player._playerNet.field_Private_Byte_1;
-                string text = "<color=green>Stable</color>";
-                if (noUpdateCount > 30)
-                    text = "<color=yellow>Lagging</color>";
-                if (noUpdateCount > 150)
-                    text = "<color=red>Crashed</color>";
-                statsText.text = $"[{player.GetPlatform()}] |" + $" [{player.GetAvatarStatus()}] |" + $"{(player.GetIsMaster() ? " | [<color=#0352ff>HOST</color>] |" : "")}" + $" [{text}] |" + $" [FPS: {player.GetFramesColord()}] |" + $" [Ping: {player.GetPingColord()}] " + $" [VRAM: {avatarStats}] " + $" {(player.ClientDetect() ? " | [<color=red>ClientUser</color>]" : "")}";
-                if (customText != null)
-                {
-                    NameplateModel custom = IsCustom(player);
-                    customText.text = custom.Text;
-                }
-                wasPrevious = avatarLoaded;
-                wasPreviousHidden = avatarHidden;
-                wasPreviousShown = avatarShown;
             }
         }
 

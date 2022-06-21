@@ -97,9 +97,10 @@ namespace ReModCE_ARES.Exploits
         {
             Vector3 LastPos = VRCPlayer.field_Internal_Static_VRCPlayer_0._player.transform.position + new Vector3(0f, 0.1f, 0f);
 
-            try
+
+            foreach (VRCSDK2.VRC_Pickup item in Resources.FindObjectsOfTypeAll<VRCSDK2.VRC_Pickup>().ToList())
             {
-                foreach (VRCSDK2.VRC_Pickup item in Resources.FindObjectsOfTypeAll<VRCSDK2.VRC_Pickup>().ToList())
+                try
                 {
                     if (item.GetComponent<Rigidbody>() != null)
                     {
@@ -125,8 +126,18 @@ namespace ReModCE_ARES.Exploits
                     item.ThrowVelocityBoostScale = 2.14748365E+09f;
                 }
 
-                foreach (VRCPickup item2 in Resources.FindObjectsOfTypeAll<VRCPickup>().ToList())
+                catch // probably caused because one of these pickups don't exist, so just throw it away
                 {
+                }
+            }
+
+
+
+            foreach (VRCPickup item2 in Resources.FindObjectsOfTypeAll<VRCPickup>().ToList())
+            {
+                try
+                {
+
                     if (item2.GetComponent<Rigidbody>() != null)
                     {
                         item2.GetComponent<Rigidbody>().mass = 2.14748365E+09f;
@@ -151,7 +162,16 @@ namespace ReModCE_ARES.Exploits
                     item2.ThrowVelocityBoostScale = 2.14748365E+09f;
                 }
 
-                foreach (VRC_ObjectSync item3 in Resources.FindObjectsOfTypeAll<VRC_ObjectSync>().ToList())
+                catch // probably caused because one of these pickups don't exist, so just throw it away
+                {
+                }
+            }
+
+
+
+            foreach (VRC_ObjectSync item3 in Resources.FindObjectsOfTypeAll<VRC_ObjectSync>().ToList())
+            {
+                try
                 {
                     if (item3.GetComponent<Rigidbody>() != null)
                     {
@@ -172,10 +192,11 @@ namespace ReModCE_ARES.Exploits
                         item3.GetComponent<Collider>().enabled = false;
                     }
                 }
+                catch // probably caused because one of these pickups don't exist, so just throw it away
+                {
+                }
             }
-            catch // probably caused because one of these pickups don't exist, so just throw it away
-            {
-            }
+
 
             while (_ItemLagEnabled)
             {

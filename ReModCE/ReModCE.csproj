@@ -281,6 +281,7 @@
     <Compile Include="Components\AntiAvatarCrashComponent.cs" />
     <Compile Include="Components\AntiBlockComponent.cs" />
     <Compile Include="Components\AvatarFavoritesComponent.cs" />
+    <Compile Include="Components\AvatarSeenHistoryComponent.cs" />
     <Compile Include="Components\CalibrationSavingComponent.cs" />
     <Compile Include="Components\CopyUserInformationComponent.cs" />
     <Compile Include="Components\DisableChairComponent.cs" />

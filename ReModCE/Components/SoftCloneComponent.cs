@@ -26,16 +26,6 @@ namespace ReModCE_ARES.Components
 
         public SoftCloneComponent()
         {
-            try
-            {
-                ReModCE_ARES.Harmony.Patch(
-                    typeof(VRCNetworkingClient).GetMethod(nameof(VRCNetworkingClient.OnEvent)),
-                    typeof(SoftCloneComponent).GetMethod(nameof(Detour), BindingFlags.NonPublic | BindingFlags.Static)
-                        .ToNewHarmonyMethod()
-                );
-            }
-            catch { ReModCE_ARES.LogDebug("Failed to patch softclone"); }
-
             _loadAvatarMethod =
                 typeof(VRCPlayer).GetMethods()
                     .First(mi =>
@@ -50,7 +40,7 @@ namespace ReModCE_ARES.Components
 
         }
 
-        private static void Detour(ref EventData __0)
+        public override bool OnEventPatch(ref EventData __0)
         {
             if (_state
                 && __0.Code == 42
@@ -74,7 +64,8 @@ namespace ReModCE_ARES.Components
                     _sentTwice = true;
                 }
             }
-        }
+            return true;
+        } 
 
         public override void OnUiManagerInit(UiManager uiManager)
         {
