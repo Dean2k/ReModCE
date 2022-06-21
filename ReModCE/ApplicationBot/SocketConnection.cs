@@ -5,13 +5,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections;
-using UnityEngine;
-using System.Threading;
 
 namespace ReModCE_ARES.ApplicationBot
 {
-    class SocketConnection : VRCModule
+    internal class SocketConnection : VRCModule
     {
         public static void SendCommandToClients(string Command)
         {
@@ -25,7 +22,6 @@ namespace ReModCE_ARES.ApplicationBot
                 }
                 catch { }
             }
-
         }
 
         public static void OnClientReceiveCommand(string Command)
@@ -35,6 +31,7 @@ namespace ReModCE_ARES.ApplicationBot
         }
 
         private static List<Socket> ServerHandlers = new List<Socket>();
+
         public static void StartServer()
         {
             ServerHandlers.Clear();
@@ -55,16 +52,14 @@ namespace ReModCE_ARES.ApplicationBot
                 Console.WriteLine($"[Server] Waiting for connections...");
                 do
                 {
-ServerHandlers.Add(listener.Accept());
+                    ServerHandlers.Add(listener.Accept());
                 } while (true);
-                
             }
             catch (Exception e)
             {
                 Console.WriteLine("[Server] " + e.ToString());
             }
         }
-
 
         public static void Client()
         {
@@ -96,7 +91,6 @@ ServerHandlers.Add(listener.Accept());
                         int bytesRec = sender.Receive(bytes);
                         OnClientReceiveCommand(Encoding.ASCII.GetString(bytes, 0, bytesRec));
                     }
-
                 }
                 catch (ArgumentNullException ane)
                 {
@@ -110,7 +104,6 @@ ServerHandlers.Add(listener.Accept());
                 {
                     Console.WriteLine("[Client] Unexpected exception : {0}", e.ToString());
                 }
-
             }
             catch (Exception e)
             {

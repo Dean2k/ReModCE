@@ -30,12 +30,6 @@ namespace ReModCE_ARES.Components
 
             _teleportMenuButton = new ReUiButton("Teleport", Vector2.zero, new Vector2(0.68f, 1.2f), TeleportMenuButtonOnClick, buttonContainer);
             _teleportTargetButton = targetMenu.AddButton("Teleport", "Teleports to target.", TeleportTargetButtonOnClick, ResourceManager.GetSprite("remodce.teleport"));
-
-            RiskyFunctionsManager.Instance.OnRiskyFunctionsChanged += allowed =>
-            {
-                _teleportMenuButton.Interactable = allowed;
-                _teleportTargetButton.Interactable = allowed;
-            };
         }
 
         private void TeleportMenuButtonOnClick()

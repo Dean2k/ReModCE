@@ -2,7 +2,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 
-namespace ReModCE_ARES
+namespace ReModCE_ARES.Core
 {
     internal static class PhotonExtensions
     {

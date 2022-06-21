@@ -29,13 +29,6 @@ namespace ReModCE_ARES.Components
         {
             EnableThirdpersonHotkey = new ConfigValue<bool>(nameof(EnableThirdpersonHotkey), true);
             EnableThirdpersonHotkey.OnValueChanged += () => _hotkeyToggle.Toggle(EnableThirdpersonHotkey);
-            RiskyFunctionsManager.Instance.OnRiskyFunctionsChanged += allowed =>
-            {
-                if (!allowed)
-                {
-                    SetThirdPersonMode(ThirdPersonMode.Off);
-                }
-            };
         }
 
         public override void OnUiManagerInit(UiManager uiManager)
@@ -137,9 +130,6 @@ namespace ReModCE_ARES.Components
 
         public override void OnUpdate()
         {
-            if (!RiskyFunctionsManager.Instance.RiskyFunctionAllowed)
-                return;
-
             if (_cameraBack == null || _cameraFront == null)
             {
                 return;

@@ -14,6 +14,7 @@ using ReModCE_ARES.Components;
 using ReModCE_ARES.Config;
 using ReModCE_ARES.Core;
 using ReModCE_ARES.Loader;
+using ReModCE_ARES.Managers;
 using ReModCE_ARES.Page;
 using ReModCE_ARES.SDK;
 using System;
@@ -461,7 +462,7 @@ namespace ReModCE_ARES
                 catch { }
                 if (Bot.FollowTargetPlayer != null)
                 {
-                    PlayerWrapper.LocalPlayer().transform.position = Bot.FollowTargetPlayer.transform.position + new Vector3(1.0f, 0.0f, 0.0f);
+                    Wrapper.LocalPlayer().transform.position = Bot.FollowTargetPlayer.transform.position + new Vector3(1.0f, 0.0f, 0.0f);
                 }
 
             }

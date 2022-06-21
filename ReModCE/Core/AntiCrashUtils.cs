@@ -3,6 +3,7 @@ using ReModAres.Core.VRChat;
 using ReModCE_ARES.AvatarPostProcess;
 using ReModCE_ARES.Config;
 using ReModCE_ARES.Loader;
+using ReModCE_ARES.Managers;
 using ReModCE_ARES.SDK;
 using System;
 using System.Text;
@@ -630,7 +631,7 @@ namespace ReModCE_ARES.Core
                     Configuration.GetAvatarProtectionsConfig().WhitelistedAvatars.Add(avatar.id, value: true);
                     Configuration.SaveAvatarProtectionsConfig();
                     GeneralUtils.RemoveAvatarFromCache(avatar.id);
-                    PlayerExtensions.ReloadAllAvatars(PlayerWrapper.LocalVRCPlayer());
+                    PlayerExtensions.ReloadAllAvatars(Wrapper.GetLocalVRCPlayer());
                 }, "Cancel", delegate
                 {
                     GeneralWrapper.ClosePopup();
@@ -644,7 +645,7 @@ namespace ReModCE_ARES.Core
                     Configuration.GetAvatarProtectionsConfig().WhitelistedAvatars.Remove(avatar.id);
                     Configuration.SaveAvatarProtectionsConfig();
                     GeneralUtils.RemoveAvatarFromCache(avatar.id);
-                    PlayerExtensions.ReloadAllAvatars(PlayerWrapper.LocalVRCPlayer());
+                    PlayerExtensions.ReloadAllAvatars(Wrapper.GetLocalVRCPlayer());
                 }, "Cancel", delegate
                 {
                     GeneralWrapper.ClosePopup();
@@ -658,7 +659,7 @@ namespace ReModCE_ARES.Core
                     Configuration.GetAvatarProtectionsConfig().WhitelistedAvatars[avatar.id] = true;
                     Configuration.SaveAvatarProtectionsConfig();
                     GeneralUtils.RemoveAvatarFromCache(avatar.id);
-                    PlayerExtensions.ReloadAllAvatars(PlayerWrapper.LocalVRCPlayer());
+                    PlayerExtensions.ReloadAllAvatars(Wrapper.GetLocalVRCPlayer());
                 }, "Cancel", delegate
                 {
                     GeneralWrapper.ClosePopup();

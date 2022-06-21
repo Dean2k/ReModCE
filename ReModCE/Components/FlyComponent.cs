@@ -64,27 +64,6 @@ namespace ReModCE_ARES.Components
                 "Whether to use Player/Viewpoint Transform as forward/right vectors.");
             FlyViewpointBased.OnValueChanged += () => _viewpointFlyingToggle?.Toggle(FlyViewpointBased);
 
-            RiskyFunctionsManager.Instance.OnRiskyFunctionsChanged += allowed =>
-            {
-                if (_flyToggle != null)
-                {
-                    _flyToggle.Interactable = allowed;
-                }
-                if (_noclipToggle != null)
-                {
-                    _noclipToggle.Interactable = allowed;
-                }
-
-                if (_noclipWingToggle != null)
-                {
-                    _noclipWingToggle.Interactable = allowed;
-                }
-
-                if (!allowed)
-                {
-                    ToggleNoclip(false);
-                }
-            };
         }
 
         private void ToggleMenu(bool value)

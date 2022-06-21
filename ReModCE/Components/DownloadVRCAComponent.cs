@@ -34,12 +34,6 @@ namespace ReModCE_ARES.Components
 
             _vrcaMenuButton = new ReUiButton("Download VRCA", Vector2.zero, new Vector2(0.68f, 1.2f), DownloadVRCAMenuButtonOnClick, buttonContainer);
             _vrcaTargetButton = targetMenu.AddButton("Download VRCA", "Downloads the selected users VRCA File.", DownloadVRCATargetButtonOnClick, ResourceManager.GetSprite("remodce.link"));
-
-            RiskyFunctionsManager.Instance.OnRiskyFunctionsChanged += allowed =>
-            {
-                _vrcaMenuButton.Interactable = allowed;
-                _vrcaTargetButton.Interactable = allowed;
-            };
         }
 
         private void DownloadVRCATargetButtonOnClick()

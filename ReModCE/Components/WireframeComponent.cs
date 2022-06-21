@@ -58,16 +58,6 @@ namespace ReModCE_ARES.Components
                 _rangeButton.Text = $"Range: {WireframeRange}";
                 _wireframeCamera.farClipPlane = WireframeRange;
             };
-
-            RiskyFunctionsManager.Instance.OnRiskyFunctionsChanged += allowed =>
-            {
-                if (_wireframeToggle != null)
-                {
-                    _wireframeToggle.Interactable = allowed;
-                }
-                if (!allowed)
-                    ToggleWireframe(false);
-            };
         }
 
         public override void OnUiManagerInitEarly()

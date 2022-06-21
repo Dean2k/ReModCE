@@ -2,7 +2,7 @@
 using ReModAres.Core.Managers;
 using ReModAres.Core.UI.QuickMenu;
 using ReModAres.Core.VRChat;
-using ReModCE_ARES.SDK;
+using ReModCE_ARES.Managers;
 
 namespace ReModCE_ARES.Components
 {
@@ -30,14 +30,14 @@ namespace ReModCE_ARES.Components
             if (_HideSelfEnabled)
             {
                 AssetBundleDownloadManager.field_Private_Static_AssetBundleDownloadManager_0.gameObject.SetActive(false);
-                PlayerWrapper.LocalVRCPlayer().prop_VRCAvatarManager_0.gameObject.SetActive(false);
+                Wrapper.GetLocalVRCPlayer().prop_VRCAvatarManager_0.gameObject.SetActive(false);
             }
 
             if (!_HideSelfEnabled)
             {
                 AssetBundleDownloadManager.field_Private_Static_AssetBundleDownloadManager_0.gameObject.SetActive(true);
-                PlayerWrapper.LocalVRCPlayer().prop_VRCAvatarManager_0.gameObject.SetActive(true);
-                PlayerExtensions.ReloadAvatar(PlayerWrapper.LocalVRCPlayer());
+                Wrapper.GetLocalVRCPlayer().prop_VRCAvatarManager_0.gameObject.SetActive(true);
+                PlayerExtensions.ReloadAvatar(Wrapper.GetLocalVRCPlayer());
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using MelonLoader;
 using ReModCE_ARES.Loader;
+using ReModCE_ARES.Managers;
 using ReModCE_ARES.SDK;
 using System;
 using System.Collections;
@@ -54,14 +55,14 @@ namespace ReModCE_ARES.ApplicationBot
                 {
                   if (UserID != string.Empty)
                   {
-                    foreach (Player player in PlayerWrapper.GetAllPlayers())
+                    foreach (Player player in Wrapper.GetAllPlayers())
                     {
                       if (player.field_Private_APIUser_0.id == UserID){
                         FollowTargetPlayer = player;
                       }
                     }
                   }
-                  ReLogger.Msg("Copy Target Set To " + FollowTargetPlayer.field_Private_APIUser_0.displayName, ConsoleColor.DarkBlue);
+                  ReLogger.Msg("Follow Target Set To " + FollowTargetPlayer.field_Private_APIUser_0.displayName, ConsoleColor.DarkBlue);
                 })
             },
 

@@ -1,4 +1,5 @@
 ﻿using ReModAres.Core.VRChat;
+using ReModCE_ARES.Components;
 using ReModCE_ARES.Core;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,16 @@ namespace ReModCE_ARES.Managers
 {
     public static class Wrapper
     {
-
         public static float GetFrames(this Player player) => (player._playerNet.prop_Byte_0 != 0) ? Mathf.Floor(1000f / (float)player._playerNet.prop_Byte_0) : -1f;
+
         public static short GetPing(this Player player) => player._playerNet.field_Private_Int16_0;
-        public static bool ClientDetect(this Player player) => player.GetFrames() > 90 || player.GetFrames() < 1 || player.GetPing() > 665 || player.GetPing() < 0;
+
+        public static bool ClientDetect(this Player player) => player.GetFrames() > 200 || player.GetFrames() < 1 || player.GetPing() > 665 || player.GetPing() < 0;
+
         public static bool GetIsMaster(this Player Instance) => Instance.GetVRCPlayerApi().isMaster;
+
         public static VRCPlayerApi GetVRCPlayerApi(this Player Instance) => Instance?.prop_VRCPlayerApi_0;
+
         public static ApiAvatar GetAvatarInfo(this Player Instance) => Instance?.prop_ApiAvatar_0;
 
         public static bool IsBot(this Player player)
@@ -60,6 +65,14 @@ namespace ReModCE_ARES.Managers
                 return "<color=green>" + ping + "</color>";
         }
 
+        public static string GetVRamActive(this Player player)
+        {
+            SizeModel sizes = VRAMCheckerInternal.GetSizeForGameObject(player._vrcplayer.field_Internal_GameObject_0);
+            return VRAMCheckerInternal.ToByteString(sizes.sizeOnlyActive);
+        }
+
+
+
         public static string GetPlatform(this Player player)
         {
             if (player.GetAPIUser().IsOnMobile)
@@ -68,7 +81,7 @@ namespace ReModCE_ARES.Managers
             }
             else if (player.GetVRCPlayerApi().IsUserInVR())
             {
-                return "<color=#CE00D5>V</color>";
+                return "<color=#CE00D5>VR</color>";
             }
             else
             {
@@ -83,6 +96,8 @@ namespace ReModCE_ARES.Managers
         }
 
         public static VRCPlayer GetLocalVRCPlayer() => VRCPlayer.field_Internal_Static_VRCPlayer_0;
+
+        public static VRC.Player LocalPlayer() => VRC.Player.prop_Player_0;
 
         public static GameObject GetAvatarObject(this Player p) => p.prop_VRCPlayer_0.prop_VRCAvatarManager_0.prop_GameObject_0;
 

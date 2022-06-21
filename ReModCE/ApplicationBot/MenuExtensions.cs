@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VRC;
+﻿using VRC;
 using VRC.Core;
 
 namespace ReModCE_ARES.ApplicationBot
 {
-    static class MenuExtensions
+    internal static class MenuExtensions
     {
         public static QuickMenu GetQuickMenu() =>
             QuickMenu.prop_QuickMenu_0;
@@ -18,6 +13,5 @@ namespace ReModCE_ARES.ApplicationBot
 
         public static Player GetSelectedPlayer() =>
             PlayerExtensions.GetPlayerByUserID(GetSelectedAPIUser().id);
-        
     }
 }

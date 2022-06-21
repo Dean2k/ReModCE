@@ -331,6 +331,7 @@
     <Compile Include="Components\SitOnComponent.cs" />
     <Compile Include="Components\TeleportComponent.cs" />
     <Compile Include="Components\ThirdPersonComponent.cs" />
+    <Compile Include="Components\VRamComponent.cs" />
     <Compile Include="Components\VRCNewsAdjustment.cs" />
     <Compile Include="Components\WireframeComponent.cs" />
     <Compile Include="Config\AvatarProtectionConfig.cs" />
@@ -346,8 +347,9 @@
     <Compile Include="Core\DynamicContractResolver.cs" />
     <Compile Include="Core\InputAxis.cs" />
     <Compile Include="Core\NameplateModel.cs" />
+    <Compile Include="Core\VRAMCheckerInternal.cs" />
     <Compile Include="Misc.cs" />
-    <Compile Include="ModerationManagerExtension.cs" />
+    <Compile Include="SDK\ModerationManagerExtension.cs" />
     <Compile Include="Page\Categories\Utilties.cs" />
     <Compile Include="Page\Categories\Visuals.cs" />
     <Compile Include="Page\PageNames.cs" />
@@ -362,17 +364,15 @@
     <Compile Include="Core\Utilities.cs" />
     <Compile Include="extension.cs" />
     <Compile Include="Managers\QMLabel.cs" />
-    <Compile Include="Managers\RiskyFunctionsManager.cs" />
     <Compile Include="Managers\Wrapper.cs" />
-    <Compile Include="PhotonExtensions.cs" />
+    <Compile Include="Core\PhotonExtensions.cs" />
     <Compile Include="ReModCE_ARES.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK\GeneralWrapper.cs" />
-    <Compile Include="SDK\PlayerWrapper.cs" />
     <Compile Include="SDK\Utils\FastMethodInfo.cs" />
     <Compile Include="SDK\Utils\GeneralUtils.cs" />
-    <Compile Include="Serialization.cs" />
-    <Compile Include="VRCBotModule.cs" />
+    <Compile Include="Core\Serialization.cs" />
+    <Compile Include="ApplicationBot\VRCBotModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReMod.Cores\ReModAres.Core.csproj">

@@ -1,19 +1,15 @@
-﻿using System;
+﻿using ReModCE_ARES.SDK;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using VRC;
 using VRC.Core;
 using VRC.SDKBase;
 using VRC.UI;
-using MelonLoader;
 
 namespace ReModCE_ARES.ApplicationBot
 {
-    static class PlayerExtensions
+    internal static class PlayerExtensions
     {
         public static VRCPlayer LocalVRCPlayer => VRCPlayer.field_Internal_Static_VRCPlayer_0;
         public static Player LocalPlayer => Player.prop_Player_0;
@@ -22,10 +18,12 @@ namespace ReModCE_ARES.ApplicationBot
         public static VRCPlayerApi LocalVRCPlayerAPI => LocalVRCPlayer.field_Private_VRCPlayerApi_0;
         public static PlayerManager PManager => PlayerManager.field_Private_Static_PlayerManager_0;
         public static List<Player> AllPlayers => PManager.field_Private_List_1_Player_0.ToArray().ToList();
+
         public static ApiAvatar GetAPIAvatar(this Player player)
         {
             return player.prop_ApiAvatar_0;
         }
+
         public static PlayerNet GetPlayerNet(this Player player)
         {
             return player.prop_PlayerNet_0;
@@ -87,6 +85,7 @@ namespace ReModCE_ARES.ApplicationBot
 
         public static float DefaultGain => 1f;
         public static float MaxGain => float.MaxValue;
+
         public static bool IsMaster(this Player player)
         {
             return player.GetVRCPlayerApi().isMaster;
@@ -118,6 +117,7 @@ namespace ReModCE_ARES.ApplicationBot
         }
 
         private static VRC_EventHandler handler;
+
         public static void SendVRCEvent(VRC_EventHandler.VrcEvent vrcEvent, VRC_EventHandler.VrcBroadcastType type, GameObject instagator)
         {
             if (handler == null)
@@ -136,7 +136,6 @@ namespace ReModCE_ARES.ApplicationBot
             );
         }
 
-
         public static void ChangeAvatar(string AvatarID)
         {
             new PageAvatar { field_Public_SimpleAvatarPedestal_0 = new SimpleAvatarPedestal { field_Internal_ApiAvatar_0 = new ApiAvatar { id = AvatarID } } }.ChangeToSelectedAvatar();
@@ -151,12 +150,11 @@ namespace ReModCE_ARES.ApplicationBot
         {
             var userinfo = GameObject.Find("Screens").transform.Find("UserInfo").GetComponent<PageUserInfo>();
             {
-                
                 userinfo.field_Private_APIUser_0 = new APIUser
                 {
                     id = player.GetAPIUser().id
                 };
-                
+
                 if (player.GetAPIUser().id != APIUser.CurrentUser.id)
                 {
                     userinfo.ToggleBlock();

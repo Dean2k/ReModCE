@@ -6,7 +6,7 @@ using ReModAres.Core.VRChat;
 using ReModCE_ARES.Config;
 using ReModCE_ARES.Core;
 using ReModCE_ARES.Loader;
-using ReModCE_ARES.SDK;
+using ReModCE_ARES.Managers;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -333,7 +333,7 @@ namespace ReModCE_ARES.Components
             }, (Action<ApiContainer>)delegate (ApiContainer x)
             {
                 ReLogger.Msg("Whitelist failed with error: " + x.Error);
-                GeneralWrapper.AlertPopup("Whitelist", "Whitelist failed with error: " + x.Error);
+                VRCUiManagerEx.Instance.QueueHudMessage("Whitelist failed with error: " + x.Error, Color.red);
             });
         }
 
@@ -342,7 +342,7 @@ namespace ReModCE_ARES.Components
             PlayerDetails playerDetails2 = null;
             try
             {
-                playerDetails2 = Managers.Wrapper.GetPlayerInformationById(__0.Sender);
+                playerDetails2 = Wrapper.GetPlayerInformationById(__0.Sender);
             }
             catch { }
 

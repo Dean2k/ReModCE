@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ReModCE_ARES.ApplicationBot
 {
-    class ObjectExtensions
+    internal class ObjectExtensions
     {
         private static GameObject CachedPlayerCamera;
+
         public static GameObject GetPlayerCamera
         {
             get

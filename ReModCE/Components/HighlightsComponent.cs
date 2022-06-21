@@ -33,21 +33,6 @@ namespace ReModCE_ARES.Components
 
             ESPEnabled = new ConfigValue<bool>(nameof(ESPEnabled), false);
             ESPEnabled.OnValueChanged += () => _espToggle.Toggle(ESPEnabled);
-
-            RiskyFunctionsManager.Instance.OnRiskyFunctionsChanged += allowed =>
-            {
-                if (_espToggle != null)
-                {
-                    _espToggle.Interactable = allowed;
-                }
-                if (_espMirroredToggle != null)
-                {
-                    _espMirroredToggle.Interactable = allowed;
-                }
-
-                if (!allowed)
-                    ESPEnabled.SetValue(false);
-            };
         }
 
         public override void OnUiManagerInitEarly()
@@ -120,8 +105,6 @@ namespace ReModCE_ARES.Components
 
         private void HighlightPlayer(Player player, bool highlighted)
         {
-            if (!RiskyFunctionsManager.Instance.RiskyFunctionAllowed)
-                return;
 
             if (player.field_Private_APIUser_0.IsSelf)
                 return;

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace ReModCE_ARES
+namespace ReModCE_ARES.Core
 {
     internal static class Serialization
     {

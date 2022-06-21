@@ -4,6 +4,7 @@ using ReModAres.Core.Managers;
 using ReModAres.Core.UI.QuickMenu;
 using ReModCE_ARES.ApplicationBot;
 using ReModCE_ARES.Loader;
+using ReModCE_ARES.Managers;
 using ReModCE_ARES.SDK;
 using System;
 using System.Text.RegularExpressions;
@@ -41,11 +42,11 @@ namespace ReModCE_ARES.Components
             botControls.AddButton($"Stop Bot 2", "Quits Bot 2", delegate { SocketConnection.SendCommandToClients($"Kill Number2"); }, ResourceManager.GetSprite("remodce.exit-door"));
 
             botFunny.AddButton($"Join yourself", "Make bots join you.", delegate { SocketConnection.SendCommandToClients($"JoinWorld {RoomExtensions.Current_World_ID}"); }, ResourceManager.GetSprite("remodce.exit-door"));
-            botFunny.AddButton($"Orbit yourself", "Make bots orbit you.", delegate { SocketConnection.SendCommandToClients($"OrbitSelected {PlayerWrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
-            botFunny.AddButton($"Sit on yourself", "Make bots sit on you.", delegate { SocketConnection.SendCommandToClients($"SitOn {PlayerWrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
+            botFunny.AddButton($"Orbit yourself", "Make bots orbit you.", delegate { SocketConnection.SendCommandToClients($"OrbitSelected {Wrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
+            botFunny.AddButton($"Sit on yourself", "Make bots sit on you.", delegate { SocketConnection.SendCommandToClients($"SitOn {Wrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
             botFunny.AddButton($"Spin bot", "Make bots spin.", delegate { SocketConnection.SendCommandToClients($"SpinbotToggle true"); }, ResourceManager.GetSprite("remodce.exit-door"));
             botFunny.AddButton($"Change avatar", "Change avatar by ID", delegate { if (CloneID()) { SocketConnection.SendCommandToClients($"SetAvatar {Clipboard.GetText()}"); } }, ResourceManager.GetSprite("remodce.exit-door"));
-            botFunny.AddButton($"Follow yourself", "Make bots follow you.", delegate { SocketConnection.SendCommandToClients($"Follow {PlayerWrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
+            botFunny.AddButton($"Follow yourself", "Make bots follow you.", delegate { SocketConnection.SendCommandToClients($"Follow {Wrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
 
 
             botMovement.AddButton($"Move forward", "move bot.", delegate { SocketConnection.SendCommandToClients($"MoveForwards "); }, ResourceManager.GetSprite("remodce.exit-door"));

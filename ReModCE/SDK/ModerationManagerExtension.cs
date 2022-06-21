@@ -2,13 +2,18 @@
 using VRC.Core;
 using VRC.Management;
 
-namespace ReModCE_ARES
+namespace ReModCE_ARES.SDK
 {
     internal static class ModerationManagerExtension
     {
         // pretty sure this shit doesnt work
         public static bool GetIsBlocked(string userID)
             => GetModerationExistsAgainstPlayer(ApiPlayerModeration.ModerationType.Block, userID);
+
+        public static bool GetAvatarHidden(string userID)
+            => GetModerationExistsAgainstPlayer(ApiPlayerModeration.ModerationType.HideAvatar, userID);
+        public static bool GetAvatarShow(string userID)
+            => GetModerationExistsAgainstPlayer(ApiPlayerModeration.ModerationType.ShowAvatar, userID);
 
         private static bool GetModerationExistsAgainstPlayer(ApiPlayerModeration.ModerationType moderationType, string userID)
         {
