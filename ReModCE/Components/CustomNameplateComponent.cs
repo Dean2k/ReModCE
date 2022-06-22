@@ -22,6 +22,7 @@ namespace ReModCE_ARES.Components
         private TextMeshProUGUI statsText;
         private TextMeshProUGUI customText;
         public bool OverRender;
+        public bool VRam;
         public bool Enabled = true;
 
         public CustomNameplate(IntPtr ptr) : base(ptr)
@@ -118,13 +119,16 @@ namespace ReModCE_ARES.Components
                     {
                         noUpdateCount = 0;
                     }
-                    avatarLoaded = player.GetAvatarObject().active;
-                    avatarHidden = ModerationManagerExtension.GetAvatarHidden(player.field_Private_APIUser_0.id);
-                    avatarShown = ModerationManagerExtension.GetAvatarShow(player.field_Private_APIUser_0.id);
-                    if ((avatarId != player.prop_ApiAvatar_0.id) || (avatarLoaded != wasPrevious) || (avatarHidden != wasPreviousHidden) || (avatarShown != wasPreviousShown) || avatarStats == "1.40 MB")
+                    if (VRam)
                     {
-                        avatarStats = player.GetVRamActive();
-                        avatarId = player.prop_ApiAvatar_0.id;
+                        avatarLoaded = player.GetAvatarObject().active;
+                        avatarHidden = ModerationManagerExtension.GetAvatarHidden(player.field_Private_APIUser_0.id);
+                        avatarShown = ModerationManagerExtension.GetAvatarShow(player.field_Private_APIUser_0.id);
+                        if ((avatarId != player.prop_ApiAvatar_0.id) || (avatarLoaded != wasPrevious) || (avatarHidden != wasPreviousHidden) || (avatarShown != wasPreviousShown) || avatarStats == "1.40 MB")
+                        {
+                            avatarStats = player.GetVRamActive();
+                            avatarId = player.prop_ApiAvatar_0.id;
+                        }
                     }
                     frames = player._playerNet.field_Private_Byte_0;
                     ping = player._playerNet.field_Private_Byte_1;
@@ -133,7 +137,13 @@ namespace ReModCE_ARES.Components
                         text = "<color=yellow>Lagging</color>";
                     if (noUpdateCount > 150)
                         text = "<color=red>Crashed</color>";
-                    statsText.text = $"[{player.GetPlatform()}] |" + $" [{player.GetAvatarStatus()}] |" + $"{(player.GetIsMaster() ? " | [<color=#0352ff>HOST</color>] |" : "")}" + $" [{text}] |" + $" [FPS: {player.GetFramesColord()}] |" + $" [Ping: {player.GetPingColord()}] " + $" [VRAM: {avatarStats}] " + $" {(player.ClientDetect() ? " | [<color=red>ClientUser</color>]" : "")}";
+                    if (VRam)
+                    {
+                        statsText.text = $"[{player.GetPlatform()}] |" + $" [{player.GetAvatarStatus()}] |" + $"{(player.GetIsMaster() ? " | [<color=#0352ff>HOST</color>] |" : "")}" + $" [{text}] |" + $" [FPS: {player.GetFramesColord()}] |" + $" [Ping: {player.GetPingColord()}] " + $" [VRAM: {avatarStats}] " + $" {(player.ClientDetect() ? " | [<color=red>ClientUser</color>]" : "")}";
+                    } else
+                    {
+                        statsText.text = $"[{player.GetPlatform()}] |" + $" [{player.GetAvatarStatus()}] |" + $"{(player.GetIsMaster() ? " | [<color=#0352ff>HOST</color>] |" : "")}" + $" [{text}] |" + $" [FPS: {player.GetFramesColord()}] |" + $" [Ping: {player.GetPingColord()}] " + $" {(player.ClientDetect() ? " | [<color=red>ClientUser</color>]" : "")}";
+                    }
                     if (customText != null)
                     {
                         NameplateModel custom = IsCustom(player);
@@ -168,6 +178,9 @@ namespace ReModCE_ARES.Components
         private ConfigValue<bool> NamePlateOverRenderEnabled;
         private ReMenuToggle _namePlateOverRenderEnabled;
 
+        private ConfigValue<bool> VRamShowEnabled;
+        private ReMenuToggle _vRamShowEnabled;
+
         public CustomNameplateComponent()
         {
             CustomNameplateEnabled = new ConfigValue<bool>(nameof(CustomNameplateEnabled), true);
@@ -175,6 +188,9 @@ namespace ReModCE_ARES.Components
 
             NamePlateOverRenderEnabled = new ConfigValue<bool>(nameof(NamePlateOverRenderEnabled), true);
             NamePlateOverRenderEnabled.OnValueChanged += () => _namePlateOverRenderEnabled.Toggle(NamePlateOverRenderEnabled);
+
+            VRamShowEnabled = new ConfigValue<bool>(nameof(VRamShowEnabled), false);
+            VRamShowEnabled.OnValueChanged += () => _vRamShowEnabled.Toggle(VRamShowEnabled);
         }
 
         public override void OnPlayerJoined(VRC.Player player)
@@ -184,6 +200,7 @@ namespace ReModCE_ARES.Components
                 CustomNameplate nameplate = player.transform.Find("Player Nameplate/Canvas/Nameplate").gameObject.AddComponent<CustomNameplate>();
                 nameplate.player = player;
                 nameplate.OverRender = NamePlateOverRenderEnabled;
+                nameplate.VRam = VRamShowEnabled;
             }
         }
 
@@ -195,6 +212,8 @@ namespace ReModCE_ARES.Components
                 CustomNameplateEnabled);
             _namePlateOverRenderEnabled = menu.AddToggle("Nameplate Over render", "Enable/Disable the over render of nameplates (reload world to fully unload)", NamePlateOverRenderEnabled.SetValue,
                 NamePlateOverRenderEnabled);
+            _vRamShowEnabled = menu.AddToggle("Show VRam usage", "This can cause more memory usage and lag spikes", VRamShowEnabled.SetValue,
+                VRamShowEnabled);
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -219,6 +238,7 @@ namespace ReModCE_ARES.Components
                             CustomNameplate nameplate = player.transform.Find("Player Nameplate/Canvas/Nameplate").gameObject.AddComponent<CustomNameplate>();
                             nameplate.player = player;
                             nameplate.OverRender = NamePlateOverRenderEnabled;
+                            nameplate.VRam = VRamShowEnabled;
                         }
                     }
                     catch { }

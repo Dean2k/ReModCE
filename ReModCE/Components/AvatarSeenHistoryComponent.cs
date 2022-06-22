@@ -79,6 +79,7 @@ namespace ReModCE_ARES.Components
         public override void OnPlayerJoined(Player player)
         {
             if (player == null) return;
+            if (!AvatarSeenHistoryEnabled) return;
 
             VRCPlayer vrcPlayer = player._vrcplayer;
 
@@ -100,8 +101,11 @@ namespace ReModCE_ARES.Components
             {
                 try
                 {
-                    PlayerDetails playerDetails = Wrapper.GetPlayerInformationById(__0.sender);
-                    AddAvatarToSeenHistory(playerDetails.vrcPlayer.field_Private_ApiAvatar_0);
+                    if (AvatarSeenHistoryEnabled)
+                    {
+                        PlayerDetails playerDetails = Wrapper.GetPlayerInformationById(__0.sender);
+                        AddAvatarToSeenHistory(playerDetails.vrcPlayer.field_Private_ApiAvatar_0);
+                    }
                 }
                 catch { };
             }
