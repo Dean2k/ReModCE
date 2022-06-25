@@ -16,7 +16,7 @@ namespace ReModCE_ARES.Components
 
         public PlayersListComponent()
         {
-            PlayerListEnabled = new ConfigValue<bool>(nameof(PlayerListEnabled), true);
+            PlayerListEnabled = new ConfigValue<bool>(nameof(PlayerListEnabled), false);
             PlayerListEnabled.OnValueChanged += () => _playerListToggle.Toggle(PlayerListEnabled);
         }
 
@@ -63,26 +63,52 @@ namespace ReModCE_ARES.Components
             PlayerListEnabled.SetValue(value);
             drawOverlay();
         }
-
+        private byte frames;
+        private byte ping;
+        private int noUpdateCount = 0;
         public override void OnUpdate()
         {
             try
             {
-                string text = "";
-                for (int i = 0; i < Wrapper.GetAllPlayers().Count; i++)
+                if (PlayerListEnabled)
                 {
-                    VRC.Player player = Wrapper.GetAllPlayers()[i];
-                    if (player.GetIsMaster())
+                    string text = "";
+                    for (int i = 0; i < Wrapper.GetAllPlayers().Count; i++)
                     {
-                        text += " [<color=#FFB300>H</color>]";
+
+                        VRC.Player player = Wrapper.GetAllPlayers()[i];
+
+                        if (frames == player._playerNet.field_Private_Byte_0 && ping == player._playerNet.field_Private_Byte_1)
+                        {
+                            noUpdateCount++;
+                        }
+                        else
+                        {
+                            noUpdateCount = 0;
+                        }
+
+                        frames = player._playerNet.field_Private_Byte_0;
+                        ping = player._playerNet.field_Private_Byte_1;
+                        
+
+                        if (player.GetIsMaster())
+                        {
+                            text += " [<color=#FFB300>H</color>]";
+                        }
+                        string textStatus = "<color=green>Stable</color>";
+                        if (noUpdateCount > 30)
+                            textStatus = "<color=yellow>Lagging</color>";
+                        if (noUpdateCount > 150)
+                            textStatus = "<color=red>Crashed</color>";
+                        text = text + " [" + textStatus + "]";
+                        text = text + " [" + player.GetAvatarStatus() + "]";
+                        text = text + " [" + player.GetPlatform() + "]";
+                        text = text + " [<color=#FFB300>P</color>] " + player.GetPingColord();
+                        text = text + " [<color=#FFB300>F</color>] " + player.GetFramesColord();
+                        text = text + " <color=#" + ColorUtility.ToHtmlStringRGB(player.GetTrustColor()) + ">" + player.GetAPIUser().displayName + "</color>\n";
                     }
-                    text = text + " [" + player.GetAvatarStatus() + "]";
-                    text = text + " [" + player.GetPlatform() + "]";
-                    text = text + " [<color=#FFB300>P</color>] " + player.GetPingColord();
-                    text = text + " [<color=#FFB300>F</color>] " + player.GetFramesColord();
-                    text = text + " <color=#" + ColorUtility.ToHtmlStringRGB(player.GetTrustColor()) + ">" + player.GetAPIUser().displayName + "</color>\n";
+                    playerList.text.text = text;
                 }
-                playerList.text.text = text;
             }
             catch
             {
