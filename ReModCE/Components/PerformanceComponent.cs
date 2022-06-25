@@ -61,7 +61,7 @@ namespace ReModCE_ARES.Components
             RamClearEnable = new ConfigValue<bool>(nameof(RamClearEnable), false);
             RamClearEnable.OnValueChanged += () => _ramClearEnable.Toggle(RamClearEnable);
 
-            AdaptiveGraphicsEnabled = new ConfigValue<bool>(nameof(AdaptiveGraphicsEnabled), true);
+            AdaptiveGraphicsEnabled = new ConfigValue<bool>(nameof(AdaptiveGraphicsEnabled), false);
             AdaptiveGraphicsEnabled.OnValueChanged += () => _adaptiveGraphicsToggle.Toggle(AdaptiveGraphicsEnabled);
 
             GfxUltraLowEnabled = new ConfigValue<bool>(nameof(GfxUltraLowEnabled), false);

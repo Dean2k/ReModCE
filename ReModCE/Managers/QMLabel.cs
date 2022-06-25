@@ -16,7 +16,7 @@ namespace ReModCE_ARES.Managers
         public QMLable(Transform menu, float x, float y, string contents)
         {
             VRC.UI.Elements.QuickMenu quickMenu = Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().First();
-            lable = UnityEngine.Object.Instantiate<GameObject>(quickMenu.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickLinks").gameObject, menu);
+            lable = Object.Instantiate<GameObject>(quickMenu.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickLinks").gameObject, menu);
             lable.name = contents;
             lable.transform.localPosition = new Vector3(x, y, 0);
             backgroundImage = lable.AddComponent<Image>();
@@ -31,18 +31,12 @@ namespace ReModCE_ARES.Managers
 
             TextObject = new GameObject("Text");
             TextObject.AddComponent<CanvasRenderer>();
-            //text = lable.GetComponentInChildren<TextMeshProUGUI>();
             TextObject.transform.SetParent(backgroundImage.transform, false);
             textText = TextObject.AddComponent<TextMeshProUGUI>();
             textText.text = contents;
-            //textText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-            //text.enableAutoSizing = true;
             textText.fontSize = 25;
             textText.GetComponent<RectTransform>().localPosition += new Vector3(-350f, 300f, 0f);
-
             textText.transform.SetParent(lable.transform, false);
-
-
 
             lable.gameObject.SetActive(false);
         }
@@ -57,7 +51,28 @@ namespace ReModCE_ARES.Managers
         public QMLablePlayer(Transform menu, float x, float y, string contents)
         {
             VRC.UI.Elements.QuickMenu quickMenu = Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().First();
-            lable = UnityEngine.Object.Instantiate<GameObject>(quickMenu.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickLinks").gameObject, menu);
+            lable = Object.Instantiate<GameObject>(quickMenu.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickLinks").gameObject, menu);
+            lable.name = "Lable_" + contents;
+            lable.transform.localPosition = new Vector3(x, y, 0f);
+            text = lable.GetComponentInChildren<TextMeshProUGUI>();
+            text.text = contents;
+            text.enableAutoSizing = true;
+            text.color = Color.white;
+            text.m_fontColor = Color.white;
+            lable.gameObject.SetActive(value: false);
+        }
+    }
+
+    internal class QMLableClock
+    {
+        public TextMeshProUGUI text;
+
+        public GameObject lable;
+
+        public QMLableClock(Transform menu, float x, float y, string contents)
+        {
+            VRC.UI.Elements.QuickMenu quickMenu = Resources.FindObjectsOfTypeAll<VRC.UI.Elements.QuickMenu>().First();
+            lable = Object.Instantiate<GameObject>(quickMenu.transform.Find("Container/Window/QMParent/Menu_Dashboard/ScrollRect/Viewport/VerticalLayoutGroup/Header_QuickLinks").gameObject, menu);
             lable.name = "Lable_" + contents;
             lable.transform.localPosition = new Vector3(x, y, 0f);
             text = lable.GetComponentInChildren<TextMeshProUGUI>();

@@ -32,6 +32,7 @@ using System.Text.RegularExpressions;
 using UnhollowerBaseLib;
 using UnhollowerRuntimeLib;
 using UnityEngine;
+using UnityEngine.UI;
 using VRC;
 using VRC.Core;
 using VRC.SDKBase;
@@ -136,6 +137,7 @@ namespace ReModCE_ARES
             InitializePatches();
             InitializeModComponents();
             MelonCoroutines.Start(WaitForActionMenuInitWheel());
+            MelonCoroutines.Start(WaitForQM());
             ReLogger.Msg("Done!");
             foreach (string str in (Environment.GetCommandLineArgs()).ToList<string>())
             {
@@ -596,6 +598,45 @@ namespace ReModCE_ARES
         {
             public int Priority;
             public Type Component;
+        }
+
+
+        public static GameObject _hudObj;
+        public static Text _hudClock;
+        public static bool _readyQA = false;
+
+        private static IEnumerator WaitForQM()
+        {
+            while (UnityEngine.Object.FindObjectOfType<VRC.UI.Elements.QuickMenu>()?.transform.Find("Container/Window/Page_Buttons_QM/HorizontalLayoutGroup/Page_Settings").gameObject == null) yield return null;
+            var _parent = GameObject.Find("UserInterface/UnscaledUI/HudContent_Old/Hud/VoiceDotParent");
+            _hudObj = UnityEngine.Object.Instantiate(_parent, _parent.transform.GetParent(), false);
+            _hudObj.name = "JoinNotifierParent";
+            UnityEngine.Object.Destroy(_hudObj.transform.Find("VoiceDot").gameObject);
+            UnityEngine.Object.Destroy(_hudObj.transform.Find("PushToTalkKeybd").gameObject);
+            UnityEngine.Object.Destroy(_hudObj.transform.Find("PushToTalkXbox").gameObject);
+
+            var _hudImgObj = _hudObj.transform.Find("VoiceDotDisabled").gameObject;
+            UnityEngine.Object.Destroy(_hudImgObj.GetComponent<FadeCycleEffect>());
+            
+
+            var _hudTxtObj = new GameObject("Clock-Text");
+            _hudClock = _hudTxtObj.AddComponent<Text>();
+            _hudTxtObj.transform.SetParent(_hudObj.transform, false);
+            _hudTxtObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(80, 90);
+            _hudTxtObj.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 150);
+            _hudClock.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            _hudClock.horizontalOverflow = HorizontalWrapMode.Wrap;
+            _hudClock.horizontalOverflow = HorizontalWrapMode.Wrap;
+            _hudClock.verticalOverflow = VerticalWrapMode.Overflow;
+            _hudClock.alignment = TextAnchor.MiddleLeft;
+            _hudClock.fontStyle = FontStyle.Bold;
+            _hudClock.supportRichText = true;
+            _hudClock.fontSize = 30;
+            _hudClock.text = "Clock";
+            _hudTxtObj.SetActive(true);
+            _readyQA = true;
+
+            yield break;
         }
 
         private static void InitializeModComponents()

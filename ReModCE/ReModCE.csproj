@@ -302,6 +302,7 @@
     <Compile Include="Components\AvatarSeenHistoryComponent.cs" />
     <Compile Include="Components\CalibrationSavingComponent.cs" />
     <Compile Include="Components\CopyUserInformationComponent.cs" />
+    <Compile Include="Components\ClockComponent.cs" />
     <Compile Include="Components\DisableChairComponent.cs" />
     <Compile Include="Components\DownloadVRCWComponent.cs" />
     <Compile Include="Components\EmojiBlocker.cs" />
