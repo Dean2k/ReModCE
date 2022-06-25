@@ -304,7 +304,7 @@ namespace ReModCE_ARES.ApplicationBot
 
         public override void OnStart()
         {
-            MelonLogger.Log("OnStart Override Called");
+            MelonLogger.Msg("OnStart Override Called");
             EventCachingDCLoop().Start();
             RamClearLoop().Start();
             SocketConnection.Client();

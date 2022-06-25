@@ -8,7 +8,6 @@ namespace ReModCE_ARES.Components
 {
     internal class HideSelfComponent : ModComponent
     {
-        private string pastAviID;
         public bool _HideSelfEnabled;
         private static ReMenuToggle _HideSelfToggled;
 

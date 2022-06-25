@@ -14,8 +14,6 @@ namespace ReModCE_ARES.Core
     {
         internal bool rotating;
 
-        internal static Toggle ReModFly;
-
         internal static bool NoClipFlying = true;
 
         internal static bool BarrelRolling, LockRotation;

@@ -19,16 +19,11 @@ namespace ReModCE_ARES.Components
         private static ConfigValue<bool> AntiBlockEnabled;
         private ReMenuToggle _antiblockToggle;
 
-        private ConfigValue<bool> StateBlockedEnabled;
-        private ReMenuToggle _stateBlockedToggle;
-
         public AntiBlockComponent()
         {
             AntiBlockEnabled = new ConfigValue<bool>(nameof(AntiBlockEnabled), true);
             AntiBlockEnabled.OnValueChanged += () => _antiblockToggle.Toggle(AntiBlockEnabled);
 
-            StateBlockedEnabled = new ConfigValue<bool>(nameof(StateBlockedEnabled), true);
-            StateBlockedEnabled.OnValueChanged += () => _stateBlockedToggle.Toggle(StateBlockedEnabled);
         }
 
         public override void OnUiManagerInit(UiManager uiManager)

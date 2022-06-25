@@ -90,10 +90,12 @@ namespace ReModCE_ARES.Components
         {
             try
             {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 if (__0.Code == null)
                 {
                     return false;
                 }
+#pragma warning restore CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
             }
             catch { return false; }
 

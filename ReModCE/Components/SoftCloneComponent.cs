@@ -4,6 +4,9 @@ using ReModAres.Core;
 using ReModAres.Core.Managers;
 using ReModAres.Core.UI.QuickMenu;
 using ReModAres.Core.VRChat;
+using ReModCE_ARES.Loader;
+using ReModCE_ARES.Managers;
+using System;
 using System.Linq;
 using System.Reflection;
 using UnhollowerRuntimeLib.XrefScans;
@@ -36,7 +39,6 @@ namespace ReModCE_ARES.Components
                             .Any(instance => instance.Type == XrefType.Method
                                              && instance.TryResolve() != null
                                              && instance.TryResolve().Name == "ReloadAvatarNetworkedRPC"));
-
 
         }
 
@@ -81,19 +83,16 @@ namespace ReModCE_ARES.Components
             var user = QuickMenuEx.SelectedUserLocal.field_Private_IUser_0;
             if (user == null)
                 return;
-
             AvatarDictCache = null;
-            string target = UserSelectionManager.field_Private_Static_UserSelectionManager_0.field_Private_APIUser_1.id;
-
-            ReModCE_ARES.LogDebug(target);
-
+            string target = QuickMenuEx.SelectedUserLocal.field_Private_IUser_0.GetUserID();
             _state = true;
 
             AvatarDictCache = PlayerManager.prop_PlayerManager_0
                 .field_Private_List_1_Player_0
                 .ToArray()
                 .FirstOrDefault(a => a.field_Private_APIUser_0.id == target)
-                ?.prop_Player_1.field_Private_Hashtable_0["avatarDict"];
+                ?.field_Private_Player_0.field_Private_Hashtable_0["avatarDict"];
+
             _loadAvatarMethod.Invoke(VRCPlayer.field_Internal_Static_VRCPlayer_0, new object[] { true });
         }
 

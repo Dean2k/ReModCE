@@ -169,7 +169,7 @@
             GL.End();
         }
 
-        private new void OnRenderObjectDesktop()
+        private void OnRenderObjectDesktop()
         {
             // In World/Room
             if (!RoomManager.field_Private_Static_Boolean_0) return;

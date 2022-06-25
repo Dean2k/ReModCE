@@ -36,7 +36,7 @@ namespace ReModCE_ARES.Components
             _teleportTargetRightHandButton = submenu.AddButton("Sit On Right Hand", "Sit on target (press jump to stop).", TeleportTargetRightHandButtonOnClick, ResourceManager.GetSprite("remodce.legs"));
             _teleportTargetRightLegButton = submenu.AddButton("Sit On Right Leg", "Sit on target (press jump to stop).", TeleportTargetRightLegButtonOnClick, ResourceManager.GetSprite("remodce.legs"));
             _teleportTargetLeftLegButton = submenu.AddButton("Sit On Left Leg", "Sit on target (press jump to stop).", TeleportTargetLeftLegButtonOnClick, ResourceManager.GetSprite("remodce.legs"));
-            _teleportTargetLeftLegButton = submenu.AddButton("Sit On Hips", "Sit on target (press jump to stop).", TeleportTargetHipsButtonOnClick, ResourceManager.GetSprite("remodce.legs"));
+            _teleportTargetHipsButton = submenu.AddButton("Sit On Hips", "Sit on target (press jump to stop).", TeleportTargetHipsButtonOnClick, ResourceManager.GetSprite("remodce.legs"));
             uiManager.MainMenu.AddButton("Stop Siton",
                 "Stop sitting on incase Jump doesn't work.", StopSit, ResourceManager.GetSprite("remodce.legs"));
 

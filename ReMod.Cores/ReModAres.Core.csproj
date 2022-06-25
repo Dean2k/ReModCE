@@ -72,7 +72,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MelonLoader">
-      <HintPath>$(SolutionDir)\3rdparty\ml\MelonLoader.dll</HintPath>
+      <HintPath>..\3rdparty\ml\MelonLoader.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Photon-DotNet">
@@ -155,7 +155,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VRC.Udon">
-      <HintPath>E:\SteamLibrary\steamapps\common\VRChat\MelonLoader\Managed\VRC.Udon.dll</HintPath>
+      <HintPath>..\3rdparty\ml\Managed\VRC.Udon.dll</HintPath>
     </Reference>
     <Reference Include="VRC.UI.Core">
       <HintPath>$(SolutionDir)\3rdparty\ml\Managed\VRC.UI.Core.dll</HintPath>

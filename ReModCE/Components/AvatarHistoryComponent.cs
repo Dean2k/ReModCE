@@ -137,6 +137,8 @@ namespace ReModCE_ARES.Components
 
         private void AddAvatarToHistory(ApiAvatar avatar)
         {
+            if (AvatarHistoryEnabled)
+                return;
             if (avatar == null)
                 return;
             if (avatar.IsLocal)
