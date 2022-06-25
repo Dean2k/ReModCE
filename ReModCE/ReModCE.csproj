@@ -308,6 +308,7 @@
     <Compile Include="Components\EmojiBlocker.cs" />
     <Compile Include="Components\ExploitGenericComponent.cs" />
     <Compile Include="Components\ExploitFBTComponent.cs" />
+    <Compile Include="Components\ExploitMidnightComponent.cs" />
     <Compile Include="Components\ExploitJustHComponent.cs" />
     <Compile Include="Components\ExploitJustBComponent.cs" />
     <Compile Include="Components\ExploitPrisonComponent.cs" />
