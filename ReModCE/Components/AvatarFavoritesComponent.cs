@@ -295,12 +295,13 @@ namespace ReModCE_ARES.Components
 
         private void SearchByAuthor()
         {
-            IUser user = QuickMenuEx.SelectedUserLocal.field_Private_IUser_0;
+            var user = _userInfoPage.field_Private_IUser_0;
             if (user == null)
                 return;
+
             GameObject avatarButton = GameObject.Find("/UserInterface/MenuContent/Backdrop/Header/Tabs/ViewPort/Content/AvatarPageTab/");
             ((UnityEvent)avatarButton.GetComponentInChildren<Button>().onClick).Invoke();
-            SearchAvatarsAuthor(user.prop_String_0);
+            SearchAvatarsAuthor(_userInfoPage.field_Private_IUser_0.prop_String_0);
         }
 
         public override void OnUiManagerInit(UiManager uiManager)
