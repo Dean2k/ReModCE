@@ -319,7 +319,7 @@ namespace ReModCE_ARES.Components
 
             var buttonContainer = userInfoTransform.Find("Buttons/RightSideButtons/RightUpperButtonColumn/");
 
-            _vrcaTargetButton4 = new ReUiButton("Search Users Avatars", Vector2.zero, new Vector2(0.68f, 1.2f), SearchByAuthor, buttonContainer);
+            _vrcaTargetButton4 = new ReUiButton("Search Avatars", Vector2.zero, new Vector2(0.68f, 1.2f), SearchByAuthor, buttonContainer);
 
             _vrcaTargetButton = targetMenu.AddButton("Favorite 0", "Favorite selected users avatar. (not fully working)", FavoriteAvatar0, ResourceManager.GetSprite("remodce.star"));
             _vrcaTargetButton1 = targetMenu.AddButton("Favorite 1", "Favorite selected users avatar. (not fully working)", FavoriteAvatar1, ResourceManager.GetSprite("remodce.star"));
