@@ -109,16 +109,16 @@ namespace ReModCE_ARES.Components
         {
             if (Enabled)
             {
-                if (skipX >= 50)
+                if (frames == player._playerNet.field_Private_Byte_0 && ping == player._playerNet.field_Private_Byte_1)
                 {
-                    if (frames == player._playerNet.field_Private_Byte_0 && ping == player._playerNet.field_Private_Byte_1)
-                    {
-                        noUpdateCount++;
-                    }
-                    else
-                    {
-                        noUpdateCount = 0;
-                    }
+                    noUpdateCount++;
+                }
+                else
+                {
+                    noUpdateCount = 0;
+                }
+                if (skipX >= 50)
+                {                  
                     if (VRam)
                     {
                         avatarLoaded = player.GetAvatarObject().active;
