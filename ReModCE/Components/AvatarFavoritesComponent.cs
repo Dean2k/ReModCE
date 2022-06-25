@@ -74,6 +74,7 @@ namespace ReModCE_ARES.Components
         private static ReMenuButton _vrcaTargetButton1;
         private static ReMenuButton _vrcaTargetButton2;
         private static ReMenuButton _vrcaTargetButton3;
+        private static ReUiButton _vrcaTargetButton4;
 
         private List<ReAvatar> _savedAvatars;
         private List<ReAvatar> _savedAvatars1;
@@ -292,6 +293,16 @@ namespace ReModCE_ARES.Components
             FavoriteAvatar(player.field_Private_ApiAvatar_0, 3, true);
         }
 
+        private void SearchByAuthor()
+        {
+            IUser user = QuickMenuEx.SelectedUserLocal.field_Private_IUser_0;
+            if (user == null)
+                return;
+            GameObject avatarButton = GameObject.Find("/UserInterface/MenuContent/Backdrop/Header/Tabs/ViewPort/Content/AvatarPageTab/");
+            ((UnityEvent)avatarButton.GetComponentInChildren<Button>().onClick).Invoke();
+            SearchAvatarsAuthor(user.prop_String_0);
+        }
+
         public override void OnUiManagerInit(UiManager uiManager)
         {
             base.OnUiManagerInit(uiManager);
@@ -305,6 +316,10 @@ namespace ReModCE_ARES.Components
 
             var userInfoTransform = VRCUiManagerEx.Instance.MenuContent().transform.Find("Screens/UserInfo");
             _userInfoPage = userInfoTransform.GetComponent<PageUserInfo>();
+
+            var buttonContainer = userInfoTransform.Find("Buttons/RightSideButtons/RightUpperButtonColumn/");
+
+            _vrcaTargetButton4 = new ReUiButton("Search Users Avatars", Vector2.zero, new Vector2(0.68f, 1.2f), SearchByAuthor, buttonContainer);
 
             _vrcaTargetButton = targetMenu.AddButton("Favorite 0", "Favorite selected users avatar. (not fully working)", FavoriteAvatar0, ResourceManager.GetSprite("remodce.star"));
             _vrcaTargetButton1 = targetMenu.AddButton("Favorite 1", "Favorite selected users avatar. (not fully working)", FavoriteAvatar1, ResourceManager.GetSprite("remodce.star"));
@@ -511,7 +526,67 @@ namespace ReModCE_ARES.Components
             });
         }
 
+        private void SearchAvatarsAuthor(string searchTerm)
+        {
+            var popupManager = VRCUiPopupManager.field_Private_Static_VRCUiPopupManager_0;
+            if (string.IsNullOrEmpty(searchTerm) || searchTerm.Length < 3)
+            {
+                popupManager.ShowStandardPopupV2("ARES Search", "That search term is too short. The search term has to be at least 3 characters.", "I'm sorry!",
+                    () =>
+                    {
+                        popupManager.HideCurrentPopup();
+                    });
+                return;
+            }
 
+            string apiKeyCode = ApiUrl;
+
+            if (ApiKey != "")
+            {
+                apiKeyCode = ApiUnlockedUrl;
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{apiKeyCode}/records/Avatars?include=AvatarID,AvatarName,AvatarDescription,AuthorID,AuthorName,PCAssetURL,ImageURL,ThumbnailURL,Quest&size=10000&filter=AuthorID,eq,{searchTerm}&filter=Releasestatus,cs,Public");
+
+            if (ApiKey != "")
+            {
+                request.Headers.Add("X-API-Key", ApiKey);
+            }
+
+            _httpClient.SendAsync(request).ContinueWith(rsp =>
+            {
+                var searchResponse = rsp.Result;
+                if (!searchResponse.IsSuccessStatusCode)
+                {
+                    searchResponse.Content.ReadAsStringAsync().ContinueWith(errorData =>
+                    {
+                        var errorMessage = JsonConvert.DeserializeObject<ApiError>(errorData.Result).Error;
+
+                        ReLogger.Error($"Could not search for avatars: \"{errorMessage}\"");
+                        ReModCE_ARES.LogDebug($"Could not search for avatars: \"{errorMessage}\"");
+                        if (searchResponse.StatusCode == HttpStatusCode.Forbidden)
+                        {
+                            MelonCoroutines.Start(ShowAlertDelayed($"Could not search for avatars\nReason: \"{errorMessage}\""));
+                        }
+                    });
+                }
+                else
+                {
+                    searchResponse.Content.ReadAsStringAsync().ContinueWith(t =>
+                    {
+                        var avatars = JsonConvert.DeserializeObject<AvatarGet>(t.Result) ?? new AvatarGet { records = new List<ReAvatar>() };
+                        if (avatars.records.Count > 0)
+                        {
+                            MelonCoroutines.Start(RefreshSearchedAvatars(avatars.records));
+                        }
+                        else
+                        {
+                            MelonCoroutines.Start(ShowAlertDelayed($"No avatars found with the name: \"{searchTerm}\""));
+                        }
+                    });
+                }
+            });
+        }
 
         private IEnumerator RefreshSearchedAvatars(List<ReAvatar> results)
         {
