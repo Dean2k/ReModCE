@@ -626,7 +626,6 @@ namespace ReModCE_ARES
             _hudTxtObj.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 150);
             _hudClock.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
             _hudClock.horizontalOverflow = HorizontalWrapMode.Wrap;
-            _hudClock.horizontalOverflow = HorizontalWrapMode.Wrap;
             _hudClock.verticalOverflow = VerticalWrapMode.Overflow;
             _hudClock.alignment = TextAnchor.MiddleLeft;
             _hudClock.fontStyle = FontStyle.Bold;
