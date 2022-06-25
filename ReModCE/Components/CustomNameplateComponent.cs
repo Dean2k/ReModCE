@@ -117,6 +117,8 @@ namespace ReModCE_ARES.Components
                 {
                     noUpdateCount = 0;
                 }
+                frames = player._playerNet.field_Private_Byte_0;
+                ping = player._playerNet.field_Private_Byte_1;
                 if (skipX >= 50)
                 {                  
                     if (VRam)
@@ -130,8 +132,7 @@ namespace ReModCE_ARES.Components
                             avatarId = player.prop_ApiAvatar_0.id;
                         }
                     }
-                    frames = player._playerNet.field_Private_Byte_0;
-                    ping = player._playerNet.field_Private_Byte_1;
+                   
                     string text = "<color=green>Stable</color>";
                     if (noUpdateCount > 30)
                         text = "<color=yellow>Lagging</color>";
