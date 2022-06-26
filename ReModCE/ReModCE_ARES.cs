@@ -79,7 +79,8 @@ namespace ReModCE_ARES
 
             HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(url);
             webReq.Method = "GET";
-            HttpWebResponse webResp = (HttpWebResponse)webReq.GetResponse();
+            HttpWebResponse webResp = (HttpWebResponse)webReq.GetResponse();#
+            webReq.Timeout = 15000; 
             string jsonString;
             using (Stream stream = webResp.GetResponseStream())
             {
