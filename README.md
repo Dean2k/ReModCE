@@ -59,6 +59,7 @@ In case you want to update you can always grab the latest and even previous vers
 * FBT Heaven (Thanks Killer_Bigpoint for Udon Patch method) - Planned feature.
 * Application bots (Thanks to ChromaticaAPI [Love3000])
 * Hud Clock (Thanks to Blaze for his Join notification)
+* VRAM in nameplates (Thanks to [Er1807](https://github.com/Er1807/) for [this](https://github.com/Er1807/VRAMChecker))
 
 ## Hotkeys
 * CTRL + F = Noclip
