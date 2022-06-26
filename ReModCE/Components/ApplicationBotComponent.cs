@@ -47,6 +47,7 @@ namespace ReModCE_ARES.Components
             botFunny.AddButton($"Spin bot", "Make bots spin.", delegate { SocketConnection.SendCommandToClients($"SpinbotToggle true"); }, ResourceManager.GetSprite("remodce.exit-door"));
             botFunny.AddButton($"Change avatar", "Change avatar by ID", delegate { if (CloneID()) { SocketConnection.SendCommandToClients($"SetAvatar {Clipboard.GetText()}"); } }, ResourceManager.GetSprite("remodce.exit-door"));
             botFunny.AddButton($"Follow yourself", "Make bots follow you.", delegate { SocketConnection.SendCommandToClients($"Follow {Wrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
+            botFunny.AddButton($"Mimic yourself", "Make bots mimic you.", delegate { SocketConnection.SendCommandToClients($"Mimic {Wrapper.LocalPlayer().field_Private_APIUser_0.id}"); }, ResourceManager.GetSprite("remodce.exit-door"));
 
 
             botMovement.AddButton($"Move forward", "move bot.", delegate { SocketConnection.SendCommandToClients($"MoveForwards "); }, ResourceManager.GetSprite("remodce.exit-door"));

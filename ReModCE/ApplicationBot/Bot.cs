@@ -66,6 +66,29 @@ namespace ReModCE_ARES.ApplicationBot
                 })
             },
 
+             {
+            "Mimic",(UserID =>
+                {
+                  Event7Target = UserID == string.Empty ? string.Empty : UserID;
+                  if (UserID != string.Empty)
+                  {
+                    foreach (Player allPlayer in Wrapper.GetAllPlayers())
+                    {
+                      if (allPlayer.field_Private_APIUser_0.id == UserID)
+                            {
+                                Event7TargetPlayer = allPlayer;
+                                ReModCE_ARES.blockEvent7FromSending = true;
+                            }
+                    }
+                  }
+                  else
+                    Event7TargetPlayer = null;
+                  ReModCE_ARES.blockEvent7FromSending = false;
+                  ReLogger.Msg("Copy Target Set To " + Event7TargetPlayer.field_Private_APIUser_0.displayName, ConsoleColor.DarkBlue);
+                })
+            },
+
+
             { "Kill", (Number) => {
                  if (ReModCE_ARES.NumberBot.Contains(Number))
                  {
@@ -346,6 +369,10 @@ namespace ReModCE_ARES.ApplicationBot
         private static VRCPlayer target;
         private static Vector3 _originalGravity;
         private static Vector3 _playerLastPos;
+
+        public static byte[] E7Data;
+        public static string Event7Target = "";
+        public static VRC.Player Event7TargetPlayer = null;
 
         private static void TeleportToIUser(VRCPlayer user)
         {

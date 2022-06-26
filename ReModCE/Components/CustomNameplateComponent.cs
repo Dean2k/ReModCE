@@ -221,7 +221,10 @@ namespace ReModCE_ARES.Components
         {
             if (buildIndex == -1)
             {
-                ReModCE_ARES.UpdateNamePlates();
+                if (CustomNameplateEnabled)
+                {
+                    ReModCE_ARES.UpdateNamePlates();
+                }
             }
         }
 

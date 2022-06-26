@@ -68,7 +68,6 @@ namespace ReModCE_ARES
 
         public static List<NameplateModel> NameplateModels;
 
-
         public static bool IsBot = false;
 
         public static string NumberBot = "0";
@@ -82,7 +81,7 @@ namespace ReModCE_ARES
             webReq.Method = "GET";
             HttpWebResponse webResp = (HttpWebResponse)webReq.GetResponse();
             string jsonString;
-            using (Stream stream = webResp.GetResponseStream())   //modified from your code since the using statement disposes the stream automatically when done
+            using (Stream stream = webResp.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8);
                 jsonString = reader.ReadToEnd();
@@ -162,7 +161,6 @@ namespace ReModCE_ARES
                 //MuteApplication();
             }
             ShowLogo();
-
         }
 
         [DllImport("winmm.dll")]
@@ -241,13 +239,15 @@ namespace ReModCE_ARES
             Harmony.Patch(typeof(VRCPlayer).GetMethod(nameof(VRCPlayer.Awake)), GetLocalPatch(nameof(VRCPlayerAwakePatch)));
             Harmony.Patch(typeof(RoomManager).GetMethod(nameof(RoomManager.Method_Public_Static_Boolean_ApiWorld_ApiWorldInstance_String_Int32_0)), postfix: GetLocalPatch(nameof(EnterWorldPatch)));
             Harmony.Patch(typeof(UdonBehaviour).GetMethods().Where(m => m.Name.Equals(nameof(UdonBehaviour.RunProgram)) && m.GetParameters()[0].ParameterType == typeof(string)).First(), GetLocalPublicPatch(nameof(OnUdonPatch)));
+            Harmony.Patch(typeof(LoadBalancingClient).GetMethod("Method_Public_Virtual_New_Boolean_Byte_Object_RaiseEventOptions_SendOptions_0"), GetLocalPatch("PhotonRaiseEventPatch"), null);
             try
             {
-                Harmony.Patch(typeof(VRCNetworkingClient).GetMethod(nameof(VRCNetworkingClient.OnEvent)),
+                Harmony.Patch(typeof(VRCNetworkingClient).GetMethod("OnEvent"),
                     GetLocalPublicPatch(nameof(OnEventPatch)), null);
             }
-            catch {
-                MelonLogger.Msg("Error on patching AntiBlock"); 
+            catch
+            {
+                MelonLogger.Msg("Error on patching AntiBlock");
             }
             try
             {
@@ -292,8 +292,36 @@ namespace ReModCE_ARES
             //}
         }
 
+        public static bool blockEvent7FromSending = false;
+
         public static bool OnEventPatch(ref EventData __0)
         {
+            if (IsBot)
+            {
+                if (__0.Code == 7)
+                {
+                    PlayerDetails playerInformationByInstagatorID = Wrapper.GetPlayerInformationById(__0.Sender);
+                    if (playerInformationByInstagatorID != null)
+                    {
+                        byte[] data = Il2CppArrayBase<byte>.WrapNativeGenericArrayPointer(__0.CustomData.Pointer);
+                        if (data.Length > 60)
+                        {
+                            VRC.Player vrcPlayer = PlayerManager.field_Private_Static_PlayerManager_0.GetPlayer(__0.Sender);
+                            if (vrcPlayer.field_Private_APIUser_0.id == Bot.Event7Target)
+                            {
+                                Buffer.BlockCopy(BitConverter.GetBytes(int.Parse(Networking.LocalPlayer.playerId.ToString() + "00001")), 0, data, 0, 4);
+                                blockEvent7FromSending = false;
+                                PhotonExtensions.OpRaiseEvent(7, data, new RaiseEventOptions
+                                {
+                                    field_Public_ReceiverGroup_0 = ReceiverGroup.Others,
+                                    field_Public_EventCaching_0 = EventCaching.DoNotCache
+                                }, default(SendOptions));
+                                blockEvent7FromSending = true;
+                            }
+                        }
+                    }
+                }
+            }
             foreach (var m in Components)
             {
                 bool check = m.OnEventPatch(ref __0);
@@ -301,8 +329,35 @@ namespace ReModCE_ARES
                 {
                     return false;
                 }
-            }            
+            }
             return true;
+        }
+
+        private static bool PhotonRaiseEventPatch(byte __0, ref Il2CppSystem.Object __1, ref RaiseEventOptions __2)
+        {
+            if (IsBot)
+            {
+                if (__0 == 7)
+                {
+                    return !blockEvent7FromSending;
+                }
+            }
+            return true;
+        }
+
+        internal static short GetPing(VRCPlayer vrcPlayer)
+        {
+            return vrcPlayer.prop_PlayerNet_0.prop_Int16_1;
+        }
+
+        internal static int GetFPS(VRCPlayer vrcPlayer)
+        {
+            return (int)(1000f / (float)(int)vrcPlayer.prop_PlayerNet_0.field_Private_Byte_0);
+        }
+
+        internal static byte GetFPSRaw(VRCPlayer vrcPlayer)
+        {
+            return vrcPlayer.prop_PlayerNet_0.field_Private_Byte_0;
         }
 
         private static IntPtr OnAvatarDownloadStartPatch(IntPtr thisPtr, IntPtr apiAvatar, IntPtr downloadContainer,
@@ -466,7 +521,6 @@ namespace ReModCE_ARES
                 {
                     Wrapper.LocalPlayer().transform.position = Bot.FollowTargetPlayer.transform.position + new Vector3(1.0f, 0.0f, 0.0f);
                 }
-
             }
             RadialPuppetManager.OnUpdate();
             FourAxisPuppetManager.OnUpdate();
@@ -519,7 +573,6 @@ namespace ReModCE_ARES
             {
                 m.OnSceneWasLoaded(buildIndex, sceneName);
             }
-
         }
 
         public static void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -600,7 +653,6 @@ namespace ReModCE_ARES
             public Type Component;
         }
 
-
         public static GameObject _hudObj;
         public static Text _hudClock;
         public static bool _readyQA = false;
@@ -617,7 +669,6 @@ namespace ReModCE_ARES
 
             var _hudImgObj = _hudObj.transform.Find("VoiceDotDisabled").gameObject;
             UnityEngine.Object.Destroy(_hudImgObj.GetComponent<FadeCycleEffect>());
-            
 
             var _hudTxtObj = new GameObject("Clock-Text");
             _hudClock = _hudTxtObj.AddComponent<Text>();

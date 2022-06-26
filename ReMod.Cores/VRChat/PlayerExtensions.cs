@@ -35,13 +35,13 @@ namespace ReModAres.Core.VRChat
             return null;
         }
 
-        public static Player GetPlayer(this PlayerManager playerManager, int actorNr)
+        public static Player GetPlayer(this PlayerManager playerManager, int actorId)
         {
             foreach (var player in playerManager.GetPlayers())
             {
                 if (player == null)
                     continue;
-                if (player.prop_Int32_0 == actorNr)
+                if (player.prop_Int32_0 == actorId)
                     return player;
             }
 
