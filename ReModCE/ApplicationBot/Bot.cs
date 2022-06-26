@@ -104,6 +104,8 @@ namespace ReModCE_ARES.ApplicationBot
                 }
                 OrbitTarget = null;
                 FollowTargetPlayer = null;
+                Event7TargetPlayer = null;
+                  ReModCE_ARES.blockEvent7FromSending = false;
             } },
 
             { "SitOn", (UserID) => {
